@@ -1,13 +1,18 @@
-FROM krystism/openstack_base:juno
-MAINTAINER krystism "krystism@gmail.com"
+FROM dohuuhung1234/openstack:base-pike
+MAINTAINER dohuuhung "dohuuhung1234@gmail.com"
 # install packages
-RUN apt-get -y install python-glanceclient python-keystoneclient python-novaclient
-RUN apt-get -y install nova-compute nova-network nova-api-metadata
+#RUN apt-get -y install python-glanceclient python-keystoneclient python-novaclient
+#RUN apt-get -y install nova-compute nova-network nova-api-metadata
+RUN apt-get install software-properties-common -y
+RUN apt-get update -y
+RUN add-apt-repository cloud-archive:pike -y
+RUN apt-get install -y python-mysqldb
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y nova-compute
 
 # remove the SQLite database file
 RUN rm -f /var/lib/nova/nova.sqlite
 
-EXPOSE 8775 67
+EXPOSE 8774 67
 
 #copy nova config file
 COPY nova.conf /etc/nova/nova.conf
